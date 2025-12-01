@@ -50,7 +50,7 @@ class Program
 
     private static void PrintHelp()
     {
-        Console.WriteLine("Usage: puzzle1 <input_file_path>");
+        Console.WriteLine("Usage: puzzle <input_file_path>");
     }
 
     static string[] ReadLinesFromFile(string path)
