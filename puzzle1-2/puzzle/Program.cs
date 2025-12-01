@@ -1,4 +1,4 @@
-﻿namespace puzzle11;
+﻿namespace puzzle;
 
 public enum Direction
 {
@@ -17,7 +17,6 @@ class Program
     const int MinInstructionLength = 2;
     const int InitialDialPosition = 50;
     const int DalSteps = 100;
-    const int DialPasswordTargetPosition = 0;
     
     static void Main(string[] args)
     {
@@ -34,10 +33,16 @@ class Program
         var currentDialPosition = InitialDialPosition;
         foreach (var instruction in instructions)
         {
-            var remains = (currentDialPosition + ((int)instruction.Direction * instruction.Steps)) % DalSteps;
-            currentDialPosition = remains < 0 ? DalSteps + remains : remains;
-            if (currentDialPosition == DialPasswordTargetPosition)
+            var dialChange = currentDialPosition + ((int)instruction.Direction * instruction.Steps);
+
+            if (dialChange <= 0 && currentDialPosition != 0)
+            {
                 password++;
+            }
+            
+            password += Math.Abs(dialChange) / DalSteps;
+            var remains = dialChange % DalSteps;
+            currentDialPosition = remains < 0 ? DalSteps + remains : remains;
         }
 
         Console.WriteLine($"Password: {password}");
@@ -45,7 +50,7 @@ class Program
 
     private static void PrintHelp()
     {
-        Console.WriteLine("Usage: puzzle1-1 <input_file_path>");
+        Console.WriteLine("Usage: puzzle1 <input_file_path>");
     }
 
     static string[] ReadLinesFromFile(string path)
